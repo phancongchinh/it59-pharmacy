@@ -65,11 +65,11 @@ namespace IT59_Pharmacy.Data.Repositories {
             var userId = _currentUserService.getCurrentUserId();
 
             var now = DateTime.UtcNow;
-            auditable.CreatedBy = userId ??
+            auditable.CreatedById = userId ??
                                   throw new InvalidOperationException("Current session is not valid.");
-            auditable.CreatedAt = now;
-            auditable.UpdatedBy = userId;
-            auditable.UpdatedAt = now;
+            auditable.CreatedDate = now;
+            auditable.UpdatedById = userId;
+            auditable.UpdatedDate = now;
         }
     }
 }

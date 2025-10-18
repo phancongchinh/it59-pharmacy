@@ -12,8 +12,9 @@ namespace IT59_Pharmacy.Data {
             base.OnModelCreating(modelBuilder);
         }
         
-        DbSet<User> Users { get; set; }
-        DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<MedicineCategory> MedicineCategories { get; set; }
         // Add other DbSets as needed
 
         // public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }

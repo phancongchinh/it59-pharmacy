@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using IT59_Pharmacy.Data;
 using IT59_Pharmacy.Entities;
 using IT59_Pharmacy.Services;
@@ -75,21 +76,15 @@ namespace IT59_Pharmacy.Seeders {
                     CreatedDate = currentTime
                 };
 
-                // Temporarily disable change tracking for audit fields
-                context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-
                 context.Users.Add(adminUser);
                 context.SaveChanges();
-
-                // Re-enable change tracking
-                context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
 
                 // Get the admin user ID to use it for other entities
                 var savedAdmin = context.Users.First(u => u.Username == "1");
 
                 // Update the admin user to reference itself as creator
                 savedAdmin.CreatedById = savedAdmin.Id;
-                context.Users.Update(savedAdmin);
+                context.SaveChanges();
 
                 // Create 20 other users with proper CreatedById
                 var otherUsers = new List<User>();
