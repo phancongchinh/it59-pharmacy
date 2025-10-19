@@ -21,7 +21,7 @@ namespace IT59_Pharmacy.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "Username must be between 6 and 20 characters")]
+        //[StringLength(20, MinimumLength = 6, ErrorMessage = "Username must be between 6 and 20 characters")]
         public string Username { get; set; }
 
         [Required]

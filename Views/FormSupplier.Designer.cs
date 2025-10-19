@@ -1,6 +1,6 @@
-﻿namespace IT59_Pharmacy.Views
+namespace IT59_Pharmacy.Views
 {
-    partial class FormUser
+    partial class FormSupplier
     {
         /// <summary>
         /// Required designer variable.
@@ -26,49 +26,48 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
-            this.dgvUsers = new System.Windows.Forms.DataGridView();
+        private void InitializeComponent()
+        {
+            this.dgvSuppliers = new System.Windows.Forms.DataGridView();
             this.panelTop = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.panelForm = new System.Windows.Forms.Panel();
-            this.cmbRole = new System.Windows.Forms.ComboBox();
             this.chkIsActive = new System.Windows.Forms.CheckBox();
-            this.txtPhoneNumber = new System.Windows.Forms.TextBox();
+            this.txtContactPerson = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.txtFullName = new System.Windows.Forms.TextBox();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.lblRole = new System.Windows.Forms.Label();
-            this.lblPhoneNumber = new System.Windows.Forms.Label();
+            this.txtPhoneNumber = new System.Windows.Forms.TextBox();
+            this.txtAddress = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.lblContactPerson = new System.Windows.Forms.Label();
             this.lblEmail = new System.Windows.Forms.Label();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.lblFullName = new System.Windows.Forms.Label();
-            this.lblUsername = new System.Windows.Forms.Label();
+            this.lblPhoneNumber = new System.Windows.Forms.Label();
+            this.lblAddress = new System.Windows.Forms.Label();
+            this.lblName = new System.Windows.Forms.Label();
             this.panelButtons = new System.Windows.Forms.Panel();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSuppliers)).BeginInit();
             this.panelTop.SuspendLayout();
             this.panelForm.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dgvUsers
+            // dgvSuppliers
             // 
-            this.dgvUsers.AllowUserToAddRows = false;
-            this.dgvUsers.AllowUserToDeleteRows = false;
-            this.dgvUsers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvUsers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvUsers.Location = new System.Drawing.Point(0, 350);
-            this.dgvUsers.Name = "dgvUsers";
-            this.dgvUsers.ReadOnly = true;
-            this.dgvUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUsers.Size = new System.Drawing.Size(1200, 350);
-            this.dgvUsers.TabIndex = 0;
-            this.dgvUsers.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsers_CellClick);
+            this.dgvSuppliers.AllowUserToAddRows = false;
+            this.dgvSuppliers.AllowUserToDeleteRows = false;
+            this.dgvSuppliers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvSuppliers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSuppliers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSuppliers.Location = new System.Drawing.Point(0, 350);
+            this.dgvSuppliers.Name = "dgvSuppliers";
+            this.dgvSuppliers.ReadOnly = true;
+            this.dgvSuppliers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSuppliers.Size = new System.Drawing.Size(1200, 350);
+            this.dgvSuppliers.TabIndex = 0;
+            this.dgvSuppliers.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSuppliers_CellClick);
             // 
             // panelTop
             // 
@@ -89,24 +88,22 @@
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(1200, 60);
             this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Quản Lý Người Dùng";
+            this.lblTitle.Text = "Quản Lý Nhà Cung Cấp";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panelForm
             // 
-            this.panelForm.Controls.Add(this.cmbRole);
             this.panelForm.Controls.Add(this.chkIsActive);
-            this.panelForm.Controls.Add(this.txtPhoneNumber);
+            this.panelForm.Controls.Add(this.txtContactPerson);
             this.panelForm.Controls.Add(this.txtEmail);
-            this.panelForm.Controls.Add(this.txtPassword);
-            this.panelForm.Controls.Add(this.txtFullName);
-            this.panelForm.Controls.Add(this.txtUsername);
-            this.panelForm.Controls.Add(this.lblRole);
-            this.panelForm.Controls.Add(this.lblPhoneNumber);
+            this.panelForm.Controls.Add(this.txtPhoneNumber);
+            this.panelForm.Controls.Add(this.txtAddress);
+            this.panelForm.Controls.Add(this.txtName);
+            this.panelForm.Controls.Add(this.lblContactPerson);
             this.panelForm.Controls.Add(this.lblEmail);
-            this.panelForm.Controls.Add(this.lblPassword);
-            this.panelForm.Controls.Add(this.lblFullName);
-            this.panelForm.Controls.Add(this.lblUsername);
+            this.panelForm.Controls.Add(this.lblPhoneNumber);
+            this.panelForm.Controls.Add(this.lblAddress);
+            this.panelForm.Controls.Add(this.lblName);
             this.panelForm.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelForm.Location = new System.Drawing.Point(0, 60);
             this.panelForm.Name = "panelForm";
@@ -114,116 +111,98 @@
             this.panelForm.Size = new System.Drawing.Size(1200, 220);
             this.panelForm.TabIndex = 2;
             // 
-            // cmbRole
-            // 
-            this.cmbRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbRole.FormattingEnabled = true;
-            this.cmbRole.Location = new System.Drawing.Point(750, 110);
-            this.cmbRole.Name = "cmbRole";
-            this.cmbRole.Size = new System.Drawing.Size(400, 28);
-            this.cmbRole.TabIndex = 12;
-            // 
             // chkIsActive
             // 
             this.chkIsActive.AutoSize = true;
             this.chkIsActive.Checked = true;
             this.chkIsActive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIsActive.Location = new System.Drawing.Point(750, 160);
+            this.chkIsActive.Location = new System.Drawing.Point(750, 150);
             this.chkIsActive.Name = "chkIsActive";
-            this.chkIsActive.Size = new System.Drawing.Size(100, 24);
-            this.chkIsActive.TabIndex = 11;
+            this.chkIsActive.Size = new System.Drawing.Size(109, 24);
+            this.chkIsActive.TabIndex = 10;
             this.chkIsActive.Text = "Hoạt động";
             this.chkIsActive.UseVisualStyleBackColor = true;
             // 
-            // txtPhoneNumber
+            // txtContactPerson
             // 
-            this.txtPhoneNumber.Location = new System.Drawing.Point(750, 70);
-            this.txtPhoneNumber.Name = "txtPhoneNumber";
-            this.txtPhoneNumber.Size = new System.Drawing.Size(400, 27);
-            this.txtPhoneNumber.TabIndex = 10;
+            this.txtContactPerson.Location = new System.Drawing.Point(750, 100);
+            this.txtContactPerson.Name = "txtContactPerson";
+            this.txtContactPerson.Size = new System.Drawing.Size(400, 26);
+            this.txtContactPerson.TabIndex = 9;
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(750, 30);
+            this.txtEmail.Location = new System.Drawing.Point(750, 60);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(400, 27);
-            this.txtEmail.TabIndex = 9;
+            this.txtEmail.Size = new System.Drawing.Size(400, 26);
+            this.txtEmail.TabIndex = 8;
             // 
-            // txtPassword
+            // txtPhoneNumber
             // 
-            this.txtPassword.Location = new System.Drawing.Point(200, 110);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(400, 27);
-            this.txtPassword.TabIndex = 8;
-            this.txtPassword.UseSystemPasswordChar = true;
+            this.txtPhoneNumber.Location = new System.Drawing.Point(750, 20);
+            this.txtPhoneNumber.Name = "txtPhoneNumber";
+            this.txtPhoneNumber.Size = new System.Drawing.Size(400, 26);
+            this.txtPhoneNumber.TabIndex = 7;
             // 
-            // txtFullName
+            // txtAddress
             // 
-            this.txtFullName.Location = new System.Drawing.Point(200, 70);
-            this.txtFullName.Name = "txtFullName";
-            this.txtFullName.Size = new System.Drawing.Size(400, 27);
-            this.txtFullName.TabIndex = 7;
+            this.txtAddress.Location = new System.Drawing.Point(200, 60);
+            this.txtAddress.Multiline = true;
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(400, 66);
+            this.txtAddress.TabIndex = 6;
             // 
-            // txtUsername
+            // txtName
             // 
-            this.txtUsername.Location = new System.Drawing.Point(200, 30);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(400, 27);
-            this.txtUsername.TabIndex = 6;
+            this.txtName.Location = new System.Drawing.Point(200, 20);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(400, 26);
+            this.txtName.TabIndex = 5;
             // 
-            // lblRole
+            // lblContactPerson
             // 
-            this.lblRole.AutoSize = true;
-            this.lblRole.Location = new System.Drawing.Point(650, 113);
-            this.lblRole.Name = "lblRole";
-            this.lblRole.Size = new System.Drawing.Size(55, 20);
-            this.lblRole.TabIndex = 5;
-            this.lblRole.Text = "Vai trò:";
-            // 
-            // lblPhoneNumber
-            // 
-            this.lblPhoneNumber.AutoSize = true;
-            this.lblPhoneNumber.Location = new System.Drawing.Point(650, 73);
-            this.lblPhoneNumber.Name = "lblPhoneNumber";
-            this.lblPhoneNumber.Size = new System.Drawing.Size(81, 20);
-            this.lblPhoneNumber.TabIndex = 4;
-            this.lblPhoneNumber.Text = "Điện thoại:";
+            this.lblContactPerson.AutoSize = true;
+            this.lblContactPerson.Location = new System.Drawing.Point(650, 103);
+            this.lblContactPerson.Name = "lblContactPerson";
+            this.lblContactPerson.Size = new System.Drawing.Size(94, 20);
+            this.lblContactPerson.TabIndex = 4;
+            this.lblContactPerson.Text = "Người liên hệ:";
             // 
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(650, 33);
+            this.lblEmail.Location = new System.Drawing.Point(650, 63);
             this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(49, 20);
+            this.lblEmail.Size = new System.Drawing.Size(52, 20);
             this.lblEmail.TabIndex = 3;
             this.lblEmail.Text = "Email:";
             // 
-            // lblPassword
+            // lblPhoneNumber
             // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(50, 113);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(73, 20);
-            this.lblPassword.TabIndex = 2;
-            this.lblPassword.Text = "Mật khẩu:";
+            this.lblPhoneNumber.AutoSize = true;
+            this.lblPhoneNumber.Location = new System.Drawing.Point(650, 23);
+            this.lblPhoneNumber.Name = "lblPhoneNumber";
+            this.lblPhoneNumber.Size = new System.Drawing.Size(95, 20);
+            this.lblPhoneNumber.TabIndex = 2;
+            this.lblPhoneNumber.Text = "Điện thoại:";
             // 
-            // lblFullName
+            // lblAddress
             // 
-            this.lblFullName.AutoSize = true;
-            this.lblFullName.Location = new System.Drawing.Point(50, 73);
-            this.lblFullName.Name = "lblFullName";
-            this.lblFullName.Size = new System.Drawing.Size(57, 20);
-            this.lblFullName.TabIndex = 1;
-            this.lblFullName.Text = "Họ tên:";
+            this.lblAddress.AutoSize = true;
+            this.lblAddress.Location = new System.Drawing.Point(50, 63);
+            this.lblAddress.Name = "lblAddress";
+            this.lblAddress.Size = new System.Drawing.Size(60, 20);
+            this.lblAddress.TabIndex = 1;
+            this.lblAddress.Text = "Địa chỉ:";
             // 
-            // lblUsername
+            // lblName
             // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(50, 33);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(110, 20);
-            this.lblUsername.TabIndex = 0;
-            this.lblUsername.Text = "Tên đăng nhập:";
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(50, 23);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(130, 20);
+            this.lblName.TabIndex = 0;
+            this.lblName.Text = "Tên nhà cung cấp:";
             // 
             // panelButtons
             // 
@@ -295,46 +274,45 @@
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // FormUser
+            // FormSupplier
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 700);
-            this.Controls.Add(this.dgvUsers);
+            this.Controls.Add(this.dgvSuppliers);
             this.Controls.Add(this.panelButtons);
             this.Controls.Add(this.panelForm);
             this.Controls.Add(this.panelTop);
             this.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.Name = "FormUser";
-            this.Text = "Quản Lý Người Dùng";
-            this.Load += new System.EventHandler(this.FormUser_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).EndInit();
+            this.Name = "FormSupplier";
+            this.Text = "Quản Lý Nhà Cung Cấp";
+            this.Load += new System.EventHandler(this.FormSupplier_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSuppliers)).EndInit();
             this.panelTop.ResumeLayout(false);
             this.panelForm.ResumeLayout(false);
             this.panelForm.PerformLayout();
             this.panelButtons.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvUsers;
+        private System.Windows.Forms.DataGridView dgvSuppliers;
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Panel panelForm;
-        private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.Label lblUsername;
-        private System.Windows.Forms.Label lblFullName;
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.Label lblEmail;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Label lblAddress;
         private System.Windows.Forms.Label lblPhoneNumber;
-        private System.Windows.Forms.Label lblRole;
-        private System.Windows.Forms.TextBox txtFullName;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.Label lblEmail;
+        private System.Windows.Forms.Label lblContactPerson;
+        private System.Windows.Forms.TextBox txtAddress;
         private System.Windows.Forms.TextBox txtPhoneNumber;
+        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.TextBox txtContactPerson;
         private System.Windows.Forms.CheckBox chkIsActive;
-        private System.Windows.Forms.ComboBox cmbRole;
         private System.Windows.Forms.Panel panelButtons;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnEdit;
@@ -342,3 +320,4 @@
         private System.Windows.Forms.Button btnClear;
     }
 }
+

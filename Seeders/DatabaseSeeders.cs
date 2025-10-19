@@ -69,7 +69,7 @@ namespace IT59_Pharmacy.Seeders {
                     Username = "1",
                     FullName = "Quản trị viên hệ thống",
                     Email = "admin@nhathuoc.vn",
-                    PasswordHash = AuthenticationService.HashPassword("1"), // Password: admin123
+                    PasswordHash = AuthenticationService.HashPassword("1"), 
                     Role = UserRole.Administrator,
                     PhoneNumber = "028-3825-1234",
                     IsActive = true,
@@ -77,6 +77,7 @@ namespace IT59_Pharmacy.Seeders {
                 };
 
                 context.Users.Add(adminUser);
+                
                 context.SaveChanges();
 
                 // Get the admin user ID to use it for other entities

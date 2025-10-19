@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using IT59_Pharmacy.Entities;
 using IT59_Pharmacy.Services;
@@ -59,6 +60,21 @@ namespace IT59_Pharmacy.Data.Repositories {
             return _dbSet.Find(id);
         }
 
+        public List<T> GetAll() {
+            return _dbSet.ToList();
+        }
+
+        public async Task<List<T>> GetAllAsync() {
+            return await _dbSet.ToListAsync();
+        }
+
+        // Update
+        public T Update(T entity) {
+            SetAuditFieldsForUpdate(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+            return entity;
+        }
+
         private void SetAuditFieldsForAdd(T entity) {
             if (!(entity is Auditable auditable)) return;
 
@@ -69,6 +85,17 @@ namespace IT59_Pharmacy.Data.Repositories {
                                   throw new InvalidOperationException("Current session is not valid.");
             auditable.CreatedDate = now;
             auditable.UpdatedById = userId;
+            auditable.UpdatedDate = now;
+        }
+
+        private void SetAuditFieldsForUpdate(T entity) {
+            if (!(entity is Auditable auditable)) return;
+
+            var userId = _currentUserService.getCurrentUserId();
+            var now = DateTime.UtcNow;
+            
+            auditable.UpdatedById = userId ?? 
+                                    throw new InvalidOperationException("Current session is not valid.");
             auditable.UpdatedDate = now;
         }
     }
