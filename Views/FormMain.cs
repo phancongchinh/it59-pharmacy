@@ -40,11 +40,6 @@ namespace IT59_Pharmacy.Views
             OpenChildForm(new FormReceiptNote());
         }
 
-        private void lblAppTitle_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnLogout_Click(object sender, EventArgs e)
         {
             // Handle logout logic
@@ -70,7 +65,7 @@ namespace IT59_Pharmacy.Views
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
 
-            // Add child form to panel
+            // Add a child form to the panel
             panelContent.Controls.Add(childForm);
             panelContent.Tag = childForm;
             childForm.BringToFront();

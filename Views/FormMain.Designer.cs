@@ -65,7 +65,7 @@
             // 
             // btnReports
             // 
-            this.btnReports.BackColor = System.Drawing.Color.Transparent;
+            this.btnReports.BackColor = System.Drawing.Color.FromArgb(51,51,76);
             this.btnReports.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnReports.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnReports.FlatAppearance.BorderSize = 0;
@@ -103,7 +103,7 @@
             // 
             // btnInvoices
             // 
-            this.btnInvoices.BackColor = System.Drawing.Color.Transparent;
+            this.btnInvoices.BackColor = System.Drawing.Color.FromArgb(51,51,76);
             this.btnInvoices.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnInvoices.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnInvoices.FlatAppearance.BorderSize = 0;
@@ -122,7 +122,7 @@
             // 
             // btnDeliveryNotes
             // 
-            this.btnDeliveryNotes.BackColor = System.Drawing.Color.Transparent;
+            this.btnDeliveryNotes.BackColor = System.Drawing.Color.FromArgb(51,51,76);
             this.btnDeliveryNotes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDeliveryNotes.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnDeliveryNotes.FlatAppearance.BorderSize = 0;
@@ -141,7 +141,7 @@
             // 
             // btnReceiptNotes
             // 
-            this.btnReceiptNotes.BackColor = System.Drawing.Color.Transparent;
+            this.btnReceiptNotes.BackColor = System.Drawing.Color.FromArgb(51,51,76);
             this.btnReceiptNotes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnReceiptNotes.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnReceiptNotes.FlatAppearance.BorderSize = 0;
@@ -161,7 +161,7 @@
             // 
             // btnMedicines
             // 
-            this.btnMedicines.BackColor = System.Drawing.Color.Transparent;
+            this.btnMedicines.BackColor = System.Drawing.Color.FromArgb(51,51,76);
             this.btnMedicines.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMedicines.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnMedicines.FlatAppearance.BorderSize = 0;
@@ -181,7 +181,7 @@
             // 
             // btnMedicineCategories
             // 
-            this.btnMedicineCategories.BackColor = System.Drawing.Color.Transparent;
+            this.btnMedicineCategories.BackColor = System.Drawing.Color.FromArgb(51,51,76);
             this.btnMedicineCategories.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMedicineCategories.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnMedicineCategories.FlatAppearance.BorderSize = 0;
@@ -201,7 +201,7 @@
             // 
             // btnSuppliers
             // 
-            this.btnSuppliers.BackColor = System.Drawing.Color.Transparent;
+            this.btnSuppliers.BackColor = System.Drawing.Color.FromArgb(51,51,76);
             this.btnSuppliers.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSuppliers.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnSuppliers.FlatAppearance.BorderSize = 0;
@@ -221,7 +221,7 @@
             // 
             // btnUsers
             // 
-            this.btnUsers.BackColor = System.Drawing.Color.Transparent;
+            this.btnUsers.BackColor = System.Drawing.Color.FromArgb(51,51,76);
             this.btnUsers.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnUsers.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnUsers.FlatAppearance.BorderSize = 0;
@@ -251,7 +251,6 @@
             this.lblAppTitle.TabIndex = 0;
             this.lblAppTitle.Text = "IT59 Pharmacy";
             this.lblAppTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblAppTitle.Click += new System.EventHandler(this.lblAppTitle_Click);
             // 
             // panelContent
             // 
