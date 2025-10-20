@@ -51,9 +51,11 @@
             this.numUnitCost = new System.Windows.Forms.NumericUpDown();
             this.numQuantity = new System.Windows.Forms.NumericUpDown();
             this.cboMedicineBatch = new System.Windows.Forms.ComboBox();
+            this.cboMedicine = new System.Windows.Forms.ComboBox();
             this.lblUnitCost = new System.Windows.Forms.Label();
             this.lblQuantity = new System.Windows.Forms.Label();
             this.lblMedicineBatch = new System.Windows.Forms.Label();
+            this.lblMedicine = new System.Windows.Forms.Label();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.dgvReceiptNotes = new System.Windows.Forms.DataGridView();
             this.panelItemsTop = new System.Windows.Forms.Panel();
@@ -272,14 +274,16 @@
             this.panelItems.Controls.Add(this.numUnitCost);
             this.panelItems.Controls.Add(this.numQuantity);
             this.panelItems.Controls.Add(this.cboMedicineBatch);
+            this.panelItems.Controls.Add(this.cboMedicine);
             this.panelItems.Controls.Add(this.lblUnitCost);
             this.panelItems.Controls.Add(this.lblQuantity);
             this.panelItems.Controls.Add(this.lblMedicineBatch);
+            this.panelItems.Controls.Add(this.lblMedicine);
             this.panelItems.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelItems.Location = new System.Drawing.Point(0, 270);
             this.panelItems.Name = "panelItems";
             this.panelItems.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.panelItems.Size = new System.Drawing.Size(1400, 70);
+            this.panelItems.Size = new System.Drawing.Size(1400, 100);
             this.panelItems.TabIndex = 3;
             // 
             // btnRemoveItem
@@ -287,9 +291,9 @@
             this.btnRemoveItem.BackColor = System.Drawing.Color.Crimson;
             this.btnRemoveItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveItem.ForeColor = System.Drawing.Color.White;
-            this.btnRemoveItem.Location = new System.Drawing.Point(1160, 15);
+            this.btnRemoveItem.Location = new System.Drawing.Point(880, 15);
             this.btnRemoveItem.Name = "btnRemoveItem";
-            this.btnRemoveItem.Size = new System.Drawing.Size(100, 40);
+            this.btnRemoveItem.Size = new System.Drawing.Size(100, 65);
             this.btnRemoveItem.TabIndex = 7;
             this.btnRemoveItem.Text = "Xóa mục";
             this.btnRemoveItem.UseVisualStyleBackColor = false;
@@ -300,9 +304,9 @@
             this.btnAddItem.BackColor = System.Drawing.Color.SeaGreen;
             this.btnAddItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddItem.ForeColor = System.Drawing.Color.White;
-            this.btnAddItem.Location = new System.Drawing.Point(1050, 15);
+            this.btnAddItem.Location = new System.Drawing.Point(770, 15);
             this.btnAddItem.Name = "btnAddItem";
-            this.btnAddItem.Size = new System.Drawing.Size(100, 40);
+            this.btnAddItem.Size = new System.Drawing.Size(100, 65);
             this.btnAddItem.TabIndex = 6;
             this.btnAddItem.Text = "Thêm mục";
             this.btnAddItem.UseVisualStyleBackColor = false;
@@ -311,19 +315,19 @@
             // numUnitCost
             // 
             this.numUnitCost.DecimalPlaces = 2;
-            this.numUnitCost.Location = new System.Drawing.Point(850, 25);
+            this.numUnitCost.Location = new System.Drawing.Point(620, 55);
             this.numUnitCost.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.numUnitCost.Name = "numUnitCost";
-            this.numUnitCost.Size = new System.Drawing.Size(150, 25);
+            this.numUnitCost.Size = new System.Drawing.Size(120, 25);
             this.numUnitCost.TabIndex = 5;
             // 
             // numQuantity
             // 
-            this.numQuantity.Location = new System.Drawing.Point(620, 25);
+            this.numQuantity.Location = new System.Drawing.Point(620, 15);
             this.numQuantity.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -343,46 +347,65 @@
             0,
             0});
             // 
+            // cboMedicine
+            // 
+            this.cboMedicine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMedicine.FormattingEnabled = true;
+            this.cboMedicine.Location = new System.Drawing.Point(150, 15);
+            this.cboMedicine.Name = "cboMedicine";
+            this.cboMedicine.Size = new System.Drawing.Size(350, 25);
+            this.cboMedicine.TabIndex = 2;
+            this.cboMedicine.SelectedIndexChanged += new System.EventHandler(this.cboMedicine_SelectedIndexChanged);
+            // 
             // cboMedicineBatch
             // 
             this.cboMedicineBatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMedicineBatch.FormattingEnabled = true;
-            this.cboMedicineBatch.Location = new System.Drawing.Point(150, 25);
+            this.cboMedicineBatch.Location = new System.Drawing.Point(150, 55);
             this.cboMedicineBatch.Name = "cboMedicineBatch";
             this.cboMedicineBatch.Size = new System.Drawing.Size(350, 25);
             this.cboMedicineBatch.TabIndex = 3;
             // 
-            // lblUnitCost
+            // lblMedicine
             // 
-            this.lblUnitCost.AutoSize = true;
-            this.lblUnitCost.Location = new System.Drawing.Point(770, 28);
-            this.lblUnitCost.Name = "lblUnitCost";
-            this.lblUnitCost.Size = new System.Drawing.Size(57, 17);
-            this.lblUnitCost.TabIndex = 0;
-            this.lblUnitCost.Text = "Đơn giá:";
-            // 
-            // lblQuantity
-            // 
-            this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new System.Drawing.Point(540, 28);
-            this.lblQuantity.Name = "lblQuantity";
-            this.lblQuantity.Size = new System.Drawing.Size(68, 17);
-            this.lblQuantity.TabIndex = 0;
-            this.lblQuantity.Text = "Số lượng:";
+            this.lblMedicine.AutoSize = true;
+            this.lblMedicine.Location = new System.Drawing.Point(30, 18);
+            this.lblMedicine.Name = "lblMedicine";
+            this.lblMedicine.Size = new System.Drawing.Size(69, 17);
+            this.lblMedicine.TabIndex = 0;
+            this.lblMedicine.Text = "Tên thuốc:";
             // 
             // lblMedicineBatch
             // 
             this.lblMedicineBatch.AutoSize = true;
-            this.lblMedicineBatch.Location = new System.Drawing.Point(30, 28);
+            this.lblMedicineBatch.Location = new System.Drawing.Point(30, 58);
             this.lblMedicineBatch.Name = "lblMedicineBatch";
             this.lblMedicineBatch.Size = new System.Drawing.Size(63, 17);
             this.lblMedicineBatch.TabIndex = 0;
             this.lblMedicineBatch.Text = "Lô thuốc:";
             // 
+            // lblQuantity
+            // 
+            this.lblQuantity.AutoSize = true;
+            this.lblQuantity.Location = new System.Drawing.Point(540, 18);
+            this.lblQuantity.Name = "lblQuantity";
+            this.lblQuantity.Size = new System.Drawing.Size(68, 17);
+            this.lblQuantity.TabIndex = 0;
+            this.lblQuantity.Text = "Số lượng:";
+            // 
+            // lblUnitCost
+            // 
+            this.lblUnitCost.AutoSize = true;
+            this.lblUnitCost.Location = new System.Drawing.Point(540, 58);
+            this.lblUnitCost.Name = "lblUnitCost";
+            this.lblUnitCost.Size = new System.Drawing.Size(57, 17);
+            this.lblUnitCost.TabIndex = 0;
+            this.lblUnitCost.Text = "Đơn giá:";
+            // 
             // splitContainer
             // 
             this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer.Location = new System.Drawing.Point(0, 340);
+            this.splitContainer.Location = new System.Drawing.Point(0, 370);
             this.splitContainer.Name = "splitContainer";
             // 
             // splitContainer.Panel1
@@ -531,6 +554,8 @@
         private System.Windows.Forms.Panel panelItemsTop;
         private System.Windows.Forms.Label lblItemsTitle;
         private System.Windows.Forms.Label lblTotal;
+        private System.Windows.Forms.ComboBox cboMedicine;
+        private System.Windows.Forms.Label lblMedicine;
     }
 }
 
