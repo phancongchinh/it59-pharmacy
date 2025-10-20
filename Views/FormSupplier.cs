@@ -24,13 +24,6 @@ namespace IT59_Pharmacy.Views
         {
             InitializeComponent();
             
-            // Enable double buffering for smooth scrolling
-            typeof(DataGridView).InvokeMember("DoubleBuffered",
-                System.Reflection.BindingFlags.SetProperty | 
-                System.Reflection.BindingFlags.Instance | 
-                System.Reflection.BindingFlags.NonPublic,
-                null, dgvSuppliers, new object[] { true });
-            
             var context = new AppDbContext();
             var currentUserService = new CurrentUserService();
             // Set a default user ID for audit fields (you can set this from login)

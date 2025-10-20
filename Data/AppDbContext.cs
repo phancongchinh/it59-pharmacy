@@ -6,10 +6,10 @@ namespace IT59_Pharmacy.Data {
 
         public AppDbContext() : base("name=AppDbContext") {
             // Enable automatic database creation if it doesn't exist
-            Database.SetInitializer(new CreateDatabaseIfNotExists<AppDbContext>());
+            // Database.SetInitializer(new CreateDatabaseIfNotExists<AppDbContext>());
             
             // Use this only when you want to reset the database
-            // Database.SetInitializer(new DropCreateDatabaseAlways<AppDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<AppDbContext>());
             
             // Disable lazy loading for better performance
             this.Configuration.LazyLoadingEnabled = false;

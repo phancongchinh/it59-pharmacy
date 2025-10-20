@@ -37,9 +37,6 @@ namespace IT59_Pharmacy.Entities {
         [StringLength(200)]
         public string Name { get; set; } = string.Empty;
         
-        [Required]
-        public int LowStockThreshold { get; set; } = 10;
-        
         [StringLength(50)]
         public string Strength { get; set; }
         
