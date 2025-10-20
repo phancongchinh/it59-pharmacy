@@ -50,12 +50,9 @@ namespace IT59_Pharmacy.Entities {
         public string Description { get; set; }
         
         [Required]
-        [StringLength(50)]
-        public MedicineForm Form { get; set; } // Tablet, Capsule, Syrup,
-        // etc.
+        public MedicineForm MedicineForm { get; set; } // Tablet, Capsule, Syrup,
         
         [Required]
-        [StringLength(20)]
         public MedicineUnit Unit { get; set; } // Per tablet, per bottle, etc
         
         public bool isActive { get; set; } = true;

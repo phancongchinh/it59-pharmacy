@@ -66,7 +66,7 @@ namespace IT59_Pharmacy.Seeders {
                 // Create the default admin user first (without audit fields to avoid circular reference)
                 var adminUser = new User
                 {
-                    Username = "1",
+                    Username = "admin",
                     FullName = "Quản trị viên hệ thống",
                     Email = "admin@nhathuoc.vn",
                     PasswordHash = AuthenticationService.HashPassword("1"), 
@@ -81,7 +81,7 @@ namespace IT59_Pharmacy.Seeders {
                 context.SaveChanges();
 
                 // Get the admin user ID to use it for other entities
-                var savedAdmin = context.Users.First(u => u.Username == "1");
+                var savedAdmin = context.Users.First(u => u.Username == "admin");
 
                 // Update the admin user to reference itself as creator
                 savedAdmin.CreatedById = savedAdmin.Id;

@@ -75,6 +75,18 @@ namespace IT59_Pharmacy.Data.Repositories {
             return entity;
         }
 
+        // Delete
+        public void Delete(int id) {
+            var entity = _dbSet.Find(id);
+            if (entity != null) {
+                _dbSet.Remove(entity);
+            }
+        }
+
+        public void Delete(T entity) {
+            _dbSet.Remove(entity);
+        }
+
         private void SetAuditFieldsForAdd(T entity) {
             if (!(entity is Auditable auditable)) return;
 

@@ -15,11 +15,6 @@ namespace IT59_Pharmacy.Views
             InitializeComponent();
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void btnUsers_Click(object sender, EventArgs e)
         {
             OpenChildForm(new FormUser());
@@ -33,6 +28,16 @@ namespace IT59_Pharmacy.Views
         private void btnMedicineCategories_Click(object sender, EventArgs e)
         {
             OpenChildForm(new FormMedicineCategory());
+        }
+
+        private void btnMedicines_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormMedicine());
+        }
+
+        private void btnReceiptNotes_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormReceiptNote());
         }
 
         private void lblAppTitle_Click(object sender, EventArgs e)
@@ -55,7 +60,7 @@ namespace IT59_Pharmacy.Views
             }
         }
 
-        private void OpenChildForm(Form childForm)
+        public void OpenChildForm(Form childForm)
         {
             // Clear existing controls in the content panel
             panelContent.Controls.Clear();

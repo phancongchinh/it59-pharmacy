@@ -157,6 +157,7 @@
             this.btnReceiptNotes.Text = "Phiếu nhập";
             this.btnReceiptNotes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnReceiptNotes.UseVisualStyleBackColor = false;
+            this.btnReceiptNotes.Click += new System.EventHandler(this.btnReceiptNotes_Click);
             // 
             // btnMedicines
             // 
@@ -176,6 +177,7 @@
             this.btnMedicines.Text = "Thuốc";
             this.btnMedicines.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnMedicines.UseVisualStyleBackColor = false;
+            this.btnMedicines.Click += new System.EventHandler(this.btnMedicines_Click);
             // 
             // btnMedicineCategories
             // 

@@ -35,10 +35,10 @@ namespace IT59_Pharmacy.Entities {
 
         public int Quantity { get; set; }   
         
-        [Column(TypeName = "decimal(10,2)")] 
+        [Column(TypeName = "decimal")] 
         public decimal CostPrice { get; set; }
         
-        [Column(TypeName = "decimal(10,2)")] 
+        [Column(TypeName = "decimal")] 
         public decimal? SellingPrice { get; set; }
         
         [Required]

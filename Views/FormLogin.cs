@@ -27,7 +27,7 @@ namespace IT59_Pharmacy.Views
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
-            // Set focus to username textbox when form loads
+            // Set focus to the username textbox when form loads
             txtUsername.Focus();
         }
 
@@ -55,7 +55,7 @@ namespace IT59_Pharmacy.Views
                 // Hash the password
                 string hashedPassword = AuthenticationService.HashPassword(txtPassword.Text);
 
-                // Find user by username and password
+                // Find the user by username and password
                 var user = _context.Users.FirstOrDefault(u => 
                     u.Username == txtUsername.Text && 
                     u.PasswordHash == hashedPassword);
@@ -69,7 +69,7 @@ namespace IT59_Pharmacy.Views
                     return;
                 }
 
-                // Check if user is active
+                // Check if the user is active
                 if (!user.IsActive)
                 {
                     MessageBox.Show("Tài khoản của bạn đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên!", 
@@ -80,13 +80,14 @@ namespace IT59_Pharmacy.Views
                 // Set current user
                 _currentUserService.setCurrentUserId(user.Id);
 
-                // Show success message
+                // Show a success message
                 MessageBox.Show($"Đăng nhập thành công!\nXin chào, {user.FullName}!", "Thành công", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Open FormMain and close FormLogin
-                FormMain formMain = new FormMain();
+                var formMain = new FormMain();
                 formMain.Show();
+                formMain.OpenChildForm(new FormUser());
                 this.Hide();
             }
             catch (Exception ex)
@@ -110,7 +111,7 @@ namespace IT59_Pharmacy.Views
 
         private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Allow login when pressing Enter key
+            // Allow login when pressing an Enter key
             if (e.KeyChar == (char)Keys.Enter)
             {
                 btnLogin_Click(sender, e);
@@ -122,11 +123,8 @@ namespace IT59_Pharmacy.Views
         {
             base.OnFormClosing(e);
             
-            // Dispose the context when form is closing
-            if (_context != null)
-            {
-                _context.Dispose();
-            }
+            // Dispose of the context when the form is closing
+            _context?.Dispose();
         }
     }
 }

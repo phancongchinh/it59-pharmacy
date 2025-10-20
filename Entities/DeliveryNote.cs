@@ -36,7 +36,6 @@ namespace IT59_Pharmacy.Entities {
         public string Notes { get; set; }
         
         [Required]
-        [StringLength(50)]
         public DeliveryFor DeliveryFor { get; set; } = DeliveryFor.Sales;
         
         public DeliveryNoteStatus Status { get; set; } = DeliveryNoteStatus.Pending;
