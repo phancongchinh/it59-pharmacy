@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IT59_Pharmacy.Entities {
     public class MedicineCategory : Auditable {
@@ -13,5 +14,8 @@ namespace IT59_Pharmacy.Entities {
         public string Description { get; set; }
         
         public bool IsActive { get; set; } = true;
+        
+        // Navigation properties
+        public virtual ICollection<Medicine> Medicines { get; set; } = new List<Medicine>();
     }
 }

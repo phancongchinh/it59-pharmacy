@@ -23,6 +23,14 @@ namespace IT59_Pharmacy.Views
         public FormSupplier()
         {
             InitializeComponent();
+            
+            // Enable double buffering for smooth scrolling
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | 
+                System.Reflection.BindingFlags.Instance | 
+                System.Reflection.BindingFlags.NonPublic,
+                null, dgvSuppliers, new object[] { true });
+            
             var context = new AppDbContext();
             var currentUserService = new CurrentUserService();
             // Set a default user ID for audit fields (you can set this from login)
@@ -32,55 +40,67 @@ namespace IT59_Pharmacy.Views
 
         private void FormSupplier_Load(object sender, EventArgs e)
         {
+            // Optimize DataGridView
+            OptimizeDataGridView(dgvSuppliers);
+            
             LoadSuppliers();
             SetFormMode(false);
+        }
+
+        private void OptimizeDataGridView(DataGridView dgv)
+        {
+            // Suspend layout during configuration
+            dgv.SuspendLayout();
+            
+            // Performance optimizations
+            dgv.AutoGenerateColumns = true;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.ReadOnly = true;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            
+            // Resume layout
+            dgv.ResumeLayout();
         }
 
         private void LoadSuppliers()
         {
             try
             {
+                // Suspend layout to prevent flickering
+                dgvSuppliers.SuspendLayout();
+                
                 var suppliers = _unitOfWork.Suppliers.GetAll();
                 
                 dgvSuppliers.DataSource = suppliers.Select(s => new
                 {
                     s.Id,
-                    s.Name,
-                    s.Address,
-                    s.PhoneNumber,
-                    s.Email,
-                    s.ContactPerson,
-                    IsActive = s.IsActive ? "Hoạt động" : "Không hoạt động",
-                    CreatedDate = s.CreatedDate.ToString("dd/MM/yyyy"),
-                    CreatedBy = s.CreatedBy != null ? s.CreatedBy.Username : "",
-                    UpdatedDate = s.UpdatedDate.HasValue ? s.UpdatedDate.Value.ToString("dd/MM/yyyy") : "",
-                    UpdatedBy = s.UpdatedBy != null ? s.UpdatedBy.Username : ""
+                    TênNhàCungCấp = s.Name,
+                    ĐịaChỉ = s.Address,
+                    ĐiệnThoại = s.PhoneNumber,
+                    Email = s.Email,
+                    NgườiLiênHệ = s.ContactPerson,
+                    TrangThái = s.IsActive ? "Hoạt động" : "Không hoạt động",
+                    NgàyTạo = s.CreatedDate.ToString("dd/MM/yyyy"),
+                    NgườiTạo = s.CreatedBy != null ? s.CreatedBy.Username : "",
+                    NgàyCậpNhật = s.UpdatedDate.HasValue ? s.UpdatedDate.Value.ToString("dd/MM/yyyy") : "",
+                    NgườiCậpNhật = s.UpdatedBy != null ? s.UpdatedBy.Username : ""
                 }).ToList();
-                
-                if (dgvSuppliers.Columns["Name"] != null)
-                    dgvSuppliers.Columns["Name"].HeaderText = "Nhà cung cấp";
-                if (dgvSuppliers.Columns["Address"] != null)
-                    dgvSuppliers.Columns["Address"].HeaderText = "Địa chỉ";
-                if (dgvSuppliers.Columns["PhoneNumber"] != null)
-                    dgvSuppliers.Columns["PhoneNumber"].HeaderText = "Số điện thoại";
-                if (dgvSuppliers.Columns["Email"] != null)
-                    dgvSuppliers.Columns["Email"].HeaderText = "Email";
-                if (dgvSuppliers.Columns["ContactPerson"] != null)
-                    dgvSuppliers.Columns["ContactPerson"].HeaderText = "Người liên hệ";
-                if (dgvSuppliers.Columns["IsActive"] != null)
-                    dgvSuppliers.Columns["IsActive"].HeaderText = "Trạng thái";
-                if (dgvSuppliers.Columns["CreatedDate"] != null)
-                    dgvSuppliers.Columns["CreatedDate"].HeaderText = "Ngày tạo";
-                if (dgvSuppliers.Columns["CreatedBy"] != null)
-                    dgvSuppliers.Columns["CreatedBy"].HeaderText = "Người tạo";
-                if (dgvSuppliers.Columns["UpdatedDate"] != null)
-                    dgvSuppliers.Columns["UpdatedDate"].HeaderText = "Ngày cập nhật";
-                if (dgvSuppliers.Columns["UpdatedBy"] != null)
-                    dgvSuppliers.Columns["UpdatedBy"].HeaderText = "Người cập nhật";
 
+                // Hide the Id column
+                if (dgvSuppliers.Columns["Id"] != null)
+                    dgvSuppliers.Columns["Id"].Visible = false;
+                    
+                // Resume layout
+                dgvSuppliers.ResumeLayout();
             }
             catch (Exception ex)
             {
+                dgvSuppliers.ResumeLayout();
                 MessageBox.Show($"Lỗi khi tải danh sách nhà cung cấp: {ex.Message}", "Lỗi", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

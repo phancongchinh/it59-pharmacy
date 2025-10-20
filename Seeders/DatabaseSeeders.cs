@@ -332,7 +332,178 @@ namespace IT59_Pharmacy.Seeders {
 
                 context.Suppliers.AddRange(suppliers);
 
-                // Save changes
+                // Save changes to get supplier IDs
+                context.SaveChanges();
+
+                // Get saved categories and suppliers for reference
+                var savedCategories = context.MedicineCategories.ToList();
+                var savedSuppliers = context.Suppliers.Where(s => s.IsActive).ToList();
+
+                // Create 30 medicines with Vietnamese names
+                var medicines = new List<Medicine>
+                {
+                    new Medicine { Name = "Paracetamol 500mg", Strength = "500mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 100, Description = "Thuốc giảm đau, hạ sốt", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Amoxicillin 500mg", Strength = "500mg", MedicineForm = MedicineForm.Capsule, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 50, Description = "Kháng sinh nhóm Penicillin", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Vitamin C 1000mg", Strength = "1000mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 80, Description = "Bổ sung vitamin C", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Ibuprofen 400mg", Strength = "400mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 75, Description = "Thuốc giảm đau, chống viêm", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Siro ho Prospan", Strength = "100ml", MedicineForm = MedicineForm.Syrup, Unit = MedicineUnit.Bottle, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 30, Description = "Siro điều trị ho, long đờm", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Cephalexin 500mg", Strength = "500mg", MedicineForm = MedicineForm.Capsule, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 40, Description = "Kháng sinh nhóm Cephalosporin", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Omeprazole 20mg", Strength = "20mg", MedicineForm = MedicineForm.Capsule, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 60, Description = "Thuốc điều trị loét dạ dày", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Metformin 850mg", Strength = "850mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 100, Description = "Thuốc điều trị tiểu đường type 2", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Losartan 50mg", Strength = "50mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 80, Description = "Thuốc điều trị tăng huyết áp", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Cetirizine 10mg", Strength = "10mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 70, Description = "Thuốc chống dị ứng", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Azithromycin 500mg", Strength = "500mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 30, Description = "Kháng sinh nhóm Macrolide", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Dexamethasone 0.5mg", Strength = "0.5mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 50, Description = "Thuốc Corticoid chống viêm", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Siro ho ACC 100mg", Strength = "100mg/5ml", MedicineForm = MedicineForm.Syrup, Unit = MedicineUnit.Bottle, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 25, Description = "Siro long đờm", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Insulin Glargine", Strength = "100IU/ml", MedicineForm = MedicineForm.Injection, Unit = MedicineUnit.Vial, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 20, Description = "Insulin điều trị tiểu đường", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Betadine 10%", Strength = "10%", MedicineForm = MedicineForm.Ointment, Unit = MedicineUnit.Bottle, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 40, Description = "Dung dịch sát khuẩn", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Amlodipine 5mg", Strength = "5mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 90, Description = "Thuốc điều trị tăng huyết áp", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Salbutamol Inhaler", Strength = "100mcg", MedicineForm = MedicineForm.Inhaler, Unit = MedicineUnit.Pack, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 15, Description = "Thuốc xịt điều trị hen suyễn", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Diclofenac Gel 1%", Strength = "1%", MedicineForm = MedicineForm.Ointment, Unit = MedicineUnit.Tube, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 35, Description = "Gel giảm đau khớp", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Atorvastatin 20mg", Strength = "20mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 70, Description = "Thuốc điều trị cholesterol cao", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Thuốc nhỏ mắt Rohto", Strength = "10ml", MedicineForm = MedicineForm.Drops, Unit = MedicineUnit.Bottle, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 50, Description = "Thuốc nhỏ mắt làm mát", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Calcium + D3", Strength = "600mg+400IU", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 80, Description = "Bổ sung canxi và vitamin D3", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Loperamide 2mg", Strength = "2mg", MedicineForm = MedicineForm.Capsule, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 60, Description = "Thuốc chống tiêu chảy", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Fluconazole 150mg", Strength = "150mg", MedicineForm = MedicineForm.Capsule, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 30, Description = "Thuốc chống nấm", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Men tiêu hóa Bioflora", Strength = "1g", MedicineForm = MedicineForm.Powder, Unit = MedicineUnit.Sachet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 100, Description = "Men vi sinh hỗ trợ tiêu hóa", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Ginkgo Biloba 120mg", Strength = "120mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 50, Description = "Thực phẩm chức năng hỗ trợ não bộ", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Multivitamin Centrum", Strength = "Combo", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 70, Description = "Vitamin tổng hợp", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Panadol Extra", Strength = "500mg+65mg", MedicineForm = MedicineForm.Tablet, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 90, Description = "Thuốc giảm đau tăng cường", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Esomeprazole 40mg", Strength = "40mg", MedicineForm = MedicineForm.Capsule, Unit = MedicineUnit.Tablet, 
+                        IsPrescriptionRequired = true, LowStockThreshold = 55, Description = "Thuốc điều trị trầm thực quản", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Miếng dán Salonpas", Strength = "10x14cm", MedicineForm = MedicineForm.Patch, Unit = MedicineUnit.Pack, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 40, Description = "Miếng dán giảm đau", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime },
+                    new Medicine { Name = "Electrolyte ORS", Strength = "27.9g", MedicineForm = MedicineForm.Powder, Unit = MedicineUnit.Sachet, 
+                        IsPrescriptionRequired = false, LowStockThreshold = 100, Description = "Bột pha điện giải", isActive = true, 
+                        CreatedById = savedAdmin.Id, CreatedDate = currentTime }
+                };
+
+                context.Medicines.AddRange(medicines);
+                context.SaveChanges();
+
+                // Assign categories to medicines (1 to 3 categories per medicine, some with no categories)
+                var savedMedicines = context.Medicines.ToList();
+                for (int i = 0; i < savedMedicines.Count; i++)
+                {
+                    var medicine = savedMedicines[i];
+                    
+                    // 10% chance of no categories
+                    if (_random.Next(100) < 10)
+                        continue;
+                    
+                    // Assign 1-3 categories randomly
+                    var numCategories = _random.Next(1, 4);
+                    var selectedCategories = savedCategories.OrderBy(x => _random.Next()).Take(numCategories).ToList();
+                    
+                    foreach (var category in selectedCategories)
+                    {
+                        if (!medicine.Categories.Contains(category))
+                        {
+                            medicine.Categories.Add(category);
+                        }
+                    }
+                }
+                context.SaveChanges();
+
+                // Create batches for each medicine (1-5 batches per medicine)
+                var medicineBatches = new List<MedicineBatch>();
+                foreach (var medicine in savedMedicines)
+                {
+                    var numBatches = _random.Next(1, 6); // 1-5 batches per medicine
+                    
+                    for (int i = 0; i < numBatches; i++)
+                    {
+                        var supplier = savedSuppliers[_random.Next(savedSuppliers.Count)];
+                        var manufacturingDate = currentTime.AddDays(-_random.Next(30, 365));
+                        var expiryDate = manufacturingDate.AddYears(_random.Next(1, 4));
+                        var batchNumber = $"LOT{DateTime.Now.Year}{_random.Next(1000, 9999)}";
+                        var quantity = _random.Next(50, 1000);
+                        var costPrice = _random.Next(5000, 500000);
+                        var sellingPrice = costPrice * (decimal)(1 + _random.Next(20, 50) / 100.0);
+                        
+                        var status = MedicineBatchStatus.Active;
+                        if (expiryDate < currentTime)
+                            status = MedicineBatchStatus.Expired;
+                        else if (_random.Next(100) < 5) // 5% chance inactive
+                            status = MedicineBatchStatus.Inactive;
+
+                        var batch = new MedicineBatch
+                        {
+                            BatchNumber = batchNumber,
+                            MedicineId = medicine.Id,
+                            SupplierId = supplier.Id,
+                            ManufacturingDate = manufacturingDate,
+                            ExpiryDate = expiryDate,
+                            Manufacturer = $"Công ty {supplier.Name}",
+                            Quantity = quantity,
+                            CostPrice = costPrice,
+                            SellingPrice = sellingPrice,
+                            Status = status,
+                            CreatedById = savedAdmin.Id,
+                            CreatedDate = currentTime.AddDays(-_random.Next(10, 180))
+                        };
+                        
+                        medicineBatches.Add(batch);
+                    }
+                }
+
+                context.MedicineBatches.AddRange(medicineBatches);
                 context.SaveChanges();
 
                 Console.WriteLine("Database seeded successfully with Vietnamese data!");
@@ -340,6 +511,8 @@ namespace IT59_Pharmacy.Seeders {
                 Console.WriteLine($"- 20 Người dùng khác");
                 Console.WriteLine($"- 36 Danh mục thuốc");
                 Console.WriteLine($"- 50 Nhà cung cấp");
+                Console.WriteLine($"- 30 Thuốc");
+                Console.WriteLine($"- {medicineBatches.Count} Lô thuốc");
             }
             catch (Exception ex)
             {

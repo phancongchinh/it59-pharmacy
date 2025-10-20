@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using IT59_Pharmacy.Data;
@@ -14,10 +15,25 @@ namespace IT59_Pharmacy.Views
         private int? _selectedReceiptNoteId = null;
         private int? _selectedItemId = null;
         private bool _isEditMode = false;
+        private List<ReceiptNoteItemViewModel> _tempItems = new List<ReceiptNoteItemViewModel>();
 
         public FormReceiptNote()
         {
             InitializeComponent();
+            
+            // Enable double buffering for both DataGridViews
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | 
+                System.Reflection.BindingFlags.Instance | 
+                System.Reflection.BindingFlags.NonPublic,
+                null, dgvReceiptNotes, new object[] { true });
+            
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | 
+                System.Reflection.BindingFlags.Instance | 
+                System.Reflection.BindingFlags.NonPublic,
+                null, dgvReceiptNoteItems, new object[] { true });
+            
             var context = new AppDbContext();
             var currentUserService = new CurrentUserService();
             currentUserService.setCurrentUserId(1);
@@ -26,20 +42,49 @@ namespace IT59_Pharmacy.Views
 
         private void FormReceiptNote_Load(object sender, EventArgs e)
         {
+            // Optimize both DataGridViews
+            OptimizeDataGridView(dgvReceiptNotes);
+            OptimizeDataGridView(dgvReceiptNoteItems);
+            
             LoadReceiptNotes();
             LoadSuppliers();
+            LoadMedicineBatches();
             
             // Populate Status ComboBox with ReceiptNoteStatus enum values
             cboStatus.DataSource = Enum.GetValues(typeof(ReceiptNoteStatus));
             cboStatus.SelectedIndex = 0;
             
             SetFormMode(false);
+            SetItemButtonsMode(false);
+        }
+
+        private void OptimizeDataGridView(DataGridView dgv)
+        {
+            // Suspend layout during configuration
+            dgv.SuspendLayout();
+            
+            // Performance optimizations
+            dgv.AutoGenerateColumns = true;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.ReadOnly = true;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            
+            // Resume layout
+            dgv.ResumeLayout();
         }
 
         private void LoadReceiptNotes()
         {
             try
             {
+                // Suspend layout to prevent flickering
+                dgvReceiptNotes.SuspendLayout();
+                
                 var receiptNotes = _unitOfWork.ReceiptNotes.GetAll()
                     .OrderByDescending(r => r.CreatedDate)
                     .ToList();
@@ -60,46 +105,34 @@ namespace IT59_Pharmacy.Views
                     dgvReceiptNotes.Columns["Id"].Visible = false;
                     
                 dgvReceiptNoteItems.DataSource = null;
+                
+                // Resume layout
+                dgvReceiptNotes.ResumeLayout();
             }
             catch (Exception ex)
             {
+                dgvReceiptNotes.ResumeLayout();
                 MessageBox.Show($"Lỗi khi tải danh sách phiếu nhập: {ex.Message}", "Lỗi", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void LoadReceiptNoteItems(int receiptNoteId)
+        private void LoadMedicineBatches()
         {
             try
             {
-                var items = _unitOfWork.ReceiptNoteItems.GetAll()
-                    .Where(i => i.ReceiptNoteId == receiptNoteId)
+                var batches = _unitOfWork.MedicineBatches.GetAll()
+                    .Where(b => b.Status == MedicineBatchStatus.Active)
                     .ToList();
                 
-                dgvReceiptNoteItems.DataSource = items.Select(i => new
-                {
-                    i.Id,
-                    TênThuốc = i.MedicineBatch != null && i.MedicineBatch.Medicine != null 
-                        ? i.MedicineBatch.Medicine.Name : "",
-                    SốLô = i.MedicineBatch != null ? i.MedicineBatch.BatchNumber : "",
-                    HạnSửDụng = i.MedicineBatch != null 
-                        ? i.MedicineBatch.ExpiryDate.ToString("dd/MM/yyyy") : "",
-                    SốLượng = i.Quantity,
-                    ĐơnGiá = i.UnitCost.ToString("N0") + " ₫",
-                    ThànhTiền = (i.Quantity * i.UnitCost).ToString("N0") + " ₫",
-                    NhàSảnXuất = i.MedicineBatch != null ? i.MedicineBatch.Manufacturer : ""
-                }).ToList();
-
-                if (dgvReceiptNoteItems.Columns["Id"] != null)
-                    dgvReceiptNoteItems.Columns["Id"].Visible = false;
-                    
-                // Calculate and display total
-                var total = items.Sum(i => i.Quantity * i.UnitCost);
-                lblTotal.Text = $"Tổng tiền: {total:N0} ₫";
+                cboMedicineBatch.DataSource = batches;
+                cboMedicineBatch.DisplayMember = "BatchNumber";
+                cboMedicineBatch.ValueMember = "Id";
+                cboMedicineBatch.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải danh sách mặt hàng: {ex.Message}", "Lỗi", 
+                MessageBox.Show($"Lỗi khi tải lô thuốc: {ex.Message}", "Lỗi", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -124,15 +157,77 @@ namespace IT59_Pharmacy.Views
             }
         }
 
+        private void LoadReceiptNoteItems(int receiptNoteId)
+        {
+            try
+            {
+                var items = _unitOfWork.ReceiptNoteItems.GetAll()
+                    .Where(i => i.ReceiptNoteId == receiptNoteId)
+                    .ToList();
+                
+                _tempItems = items.Select(i => new ReceiptNoteItemViewModel
+                {
+                    Id = i.Id,
+                    MedicineBatchId = i.MedicineBatchId,
+                    MedicineName = i.MedicineBatch != null && i.MedicineBatch.Medicine != null 
+                        ? i.MedicineBatch.Medicine.Name : "",
+                    BatchNumber = i.MedicineBatch != null ? i.MedicineBatch.BatchNumber : "",
+                    ExpiryDate = i.MedicineBatch != null ? i.MedicineBatch.ExpiryDate : DateTime.Now,
+                    Quantity = i.Quantity,
+                    UnitCost = i.UnitCost,
+                    Manufacturer = i.MedicineBatch != null ? i.MedicineBatch.Manufacturer : ""
+                }).ToList();
+                
+                RefreshItemsGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải danh sách mặt hàng: {ex.Message}", "Lỗi", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RefreshItemsGrid()
+        {
+            // Suspend layout to prevent flickering
+            dgvReceiptNoteItems.SuspendLayout();
+            
+            dgvReceiptNoteItems.DataSource = null;
+            dgvReceiptNoteItems.DataSource = _tempItems.Select(i => new
+            {
+                i.Id,
+                TênThuốc = i.MedicineName,
+                SốLô = i.BatchNumber,
+                HạnSửDụng = i.ExpiryDate.ToString("dd/MM/yyyy"),
+                SốLượng = i.Quantity,
+                ĐơnGiá = i.UnitCost.ToString("N0") + " ₫",
+                ThànhTiền = (i.Quantity * i.UnitCost).ToString("N0") + " ₫",
+                NhàSảnXuất = i.Manufacturer
+            }).ToList();
+
+            if (dgvReceiptNoteItems.Columns["Id"] != null)
+                dgvReceiptNoteItems.Columns["Id"].Visible = false;
+                
+            // Calculate and display total
+            var total = _tempItems.Sum(i => i.Quantity * i.UnitCost);
+            lblTotal.Text = $"Tổng tiền: {total:N0} ₫";
+            
+            // Resume layout
+            dgvReceiptNoteItems.ResumeLayout();
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             SetFormMode(true);
             ClearForm();
             _isEditMode = false;
             _selectedReceiptNoteId = null;
+            _tempItems.Clear();
+            RefreshItemsGrid();
             
             // Generate receipt note number
             txtReceiptNoteNumber.Text = GenerateReceiptNoteNumber();
+            SetItemButtonsMode(true);
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -153,6 +248,7 @@ namespace IT59_Pharmacy.Views
             }
 
             SetFormMode(true);
+            SetItemButtonsMode(true);
             _isEditMode = true;
         }
 
@@ -176,6 +272,13 @@ namespace IT59_Pharmacy.Views
                     return;
                 }
 
+                if (_tempItems.Count == 0)
+                {
+                    MessageBox.Show("Vui lòng thêm ít nhất một mặt hàng!", "Lỗi", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 if (_isEditMode && _selectedReceiptNoteId.HasValue)
                 {
                     var receiptNote = _unitOfWork.ReceiptNotes.GetById(_selectedReceiptNoteId.Value);
@@ -185,6 +288,27 @@ namespace IT59_Pharmacy.Views
                         receiptNote.SupplierId = (int)cboSupplier.SelectedValue;
                         receiptNote.Notes = txtNotes.Text.Trim();
                         receiptNote.Status = (ReceiptNoteStatus)cboStatus.SelectedItem;
+
+                        // Delete old items
+                        var oldItems = _unitOfWork.ReceiptNoteItems.GetAll()
+                            .Where(i => i.ReceiptNoteId == receiptNote.Id)
+                            .ToList();
+                        foreach (var item in oldItems)
+                        {
+                            _unitOfWork.ReceiptNoteItems.Delete(item);
+                        }
+
+                        // Add new items
+                        foreach (var tempItem in _tempItems)
+                        {
+                            _unitOfWork.ReceiptNoteItems.Add(new ReceiptNoteItem
+                            {
+                                ReceiptNoteId = receiptNote.Id,
+                                MedicineBatchId = tempItem.MedicineBatchId,
+                                Quantity = tempItem.Quantity,
+                                UnitCost = tempItem.UnitCost
+                            });
+                        }
 
                         _unitOfWork.ReceiptNotes.Update(receiptNote);
                         _unitOfWork.SaveChanges();
@@ -206,12 +330,26 @@ namespace IT59_Pharmacy.Views
                     _unitOfWork.ReceiptNotes.Add(newReceiptNote);
                     _unitOfWork.SaveChanges();
 
+                    // Add items
+                    foreach (var tempItem in _tempItems)
+                    {
+                        _unitOfWork.ReceiptNoteItems.Add(new ReceiptNoteItem
+                        {
+                            ReceiptNoteId = newReceiptNote.Id,
+                            MedicineBatchId = tempItem.MedicineBatchId,
+                            Quantity = tempItem.Quantity,
+                            UnitCost = tempItem.UnitCost
+                        });
+                    }
+                    _unitOfWork.SaveChanges();
+
                     MessageBox.Show("Thêm phiếu nhập thành công!", "Thành công", 
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 LoadReceiptNotes();
                 SetFormMode(false);
+                SetItemButtonsMode(false);
                 ClearForm();
             }
             catch (Exception ex)
@@ -221,18 +359,26 @@ namespace IT59_Pharmacy.Views
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             if (_selectedReceiptNoteId == null)
             {
-                MessageBox.Show("Vui lòng chọn phiếu nhập để xóa!", "Thông báo", 
+                MessageBox.Show("Vui lòng chọn phiếu nhập để hủy!", "Thông báo", 
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            var receiptNote = _unitOfWork.ReceiptNotes.GetById(_selectedReceiptNoteId.Value);
+            if (receiptNote != null && receiptNote.Status == ReceiptNoteStatus.Cancelled)
+            {
+                MessageBox.Show("Phiếu nhập này đã bị hủy!", "Thông báo", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             var result = MessageBox.Show(
-                "Bạn có chắc chắn muốn xóa phiếu nhập này?\nLưu ý: Thao tác này sẽ xóa tất cả mặt hàng trong phiếu!", 
-                "Xác nhận xóa", 
+                "Bạn có chắc chắn muốn hủy phiếu nhập này?", 
+                "Xác nhận hủy", 
                 MessageBoxButtons.YesNo, 
                 MessageBoxIcon.Question);
 
@@ -240,21 +386,11 @@ namespace IT59_Pharmacy.Views
             {
                 try
                 {
-                    // Delete all items first
-                    var items = _unitOfWork.ReceiptNoteItems.GetAll()
-                        .Where(i => i.ReceiptNoteId == _selectedReceiptNoteId.Value)
-                        .ToList();
-                    
-                    foreach (var item in items)
-                    {
-                        _unitOfWork.ReceiptNoteItems.Delete(item.Id);
-                    }
-
-                    // Then delete the receipt note
-                    _unitOfWork.ReceiptNotes.Delete(_selectedReceiptNoteId.Value);
+                    receiptNote.Status = ReceiptNoteStatus.Cancelled;
+                    _unitOfWork.ReceiptNotes.Update(receiptNote);
                     _unitOfWork.SaveChanges();
 
-                    MessageBox.Show("Xóa phiếu nhập thành công!", "Thành công", 
+                    MessageBox.Show("Hủy phiếu nhập thành công!", "Thành công", 
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     LoadReceiptNotes();
@@ -263,9 +399,105 @@ namespace IT59_Pharmacy.Views
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Lỗi khi xóa phiếu nhập: {ex.Message}", "Lỗi", 
+                    MessageBox.Show($"Lỗi khi hủy phiếu nhập: {ex.Message}", "Lỗi", 
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void btnAddItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cboMedicineBatch.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn lô thuốc!", "Lỗi", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (numQuantity.Value <= 0)
+                {
+                    MessageBox.Show("Số lượng phải lớn hơn 0!", "Lỗi", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (numUnitCost.Value <= 0)
+                {
+                    MessageBox.Show("Đơn giá phải lớn hơn 0!", "Lỗi", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var selectedBatch = (MedicineBatch)cboMedicineBatch.SelectedItem;
+                
+                // Check if batch already exists in temp items
+                if (_tempItems.Any(i => i.MedicineBatchId == selectedBatch.Id))
+                {
+                    MessageBox.Show("Lô thuốc này đã có trong danh sách!", "Lỗi", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                _tempItems.Add(new ReceiptNoteItemViewModel
+                {
+                    Id = 0, // New item
+                    MedicineBatchId = selectedBatch.Id,
+                    MedicineName = selectedBatch.Medicine != null ? selectedBatch.Medicine.Name : "",
+                    BatchNumber = selectedBatch.BatchNumber,
+                    ExpiryDate = selectedBatch.ExpiryDate,
+                    Quantity = (int)numQuantity.Value,
+                    UnitCost = numUnitCost.Value,
+                    Manufacturer = selectedBatch.Manufacturer
+                });
+
+                RefreshItemsGrid();
+                ClearItemFields();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi thêm mặt hàng: {ex.Message}", "Lỗi", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnRemoveItem_Click(object sender, EventArgs e)
+        {
+            if (_selectedItemId == null && dgvReceiptNoteItems.CurrentRow == null)
+            {
+                MessageBox.Show("Vui lòng chọn mặt hàng để xóa!", "Thông báo", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int itemId = 0;
+                if (dgvReceiptNoteItems.CurrentRow != null)
+                {
+                    itemId = Convert.ToInt32(dgvReceiptNoteItems.CurrentRow.Cells["Id"].Value);
+                }
+                else if (_selectedItemId.HasValue)
+                {
+                    itemId = _selectedItemId.Value;
+                }
+
+                var itemToRemove = _tempItems.FirstOrDefault(i => i.Id == itemId || 
+                    (i.Id == 0 && _tempItems.IndexOf(i) == dgvReceiptNoteItems.CurrentRow?.Index));
+                
+                if (itemToRemove != null)
+                {
+                    _tempItems.Remove(itemToRemove);
+                    RefreshItemsGrid();
+                    MessageBox.Show("Đã xóa mặt hàng!", "Thành công", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi xóa mặt hàng: {ex.Message}", "Lỗi", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -273,6 +505,7 @@ namespace IT59_Pharmacy.Views
         {
             ClearForm();
             SetFormMode(false);
+            SetItemButtonsMode(false);
             _selectedReceiptNoteId = null;
             _isEditMode = false;
         }
@@ -325,15 +558,24 @@ namespace IT59_Pharmacy.Views
 
         private void SetFormMode(bool isEditing)
         {
-            txtReceiptNoteNumber.Enabled = isEditing && !_isEditMode; // Only enable for new
+            txtReceiptNoteNumber.Enabled = isEditing && !_isEditMode;
             cboSupplier.Enabled = isEditing;
             txtNotes.Enabled = isEditing;
-            cboStatus.Enabled = isEditing && _isEditMode; // Only enable status when editing
+            cboStatus.Enabled = isEditing && _isEditMode;
 
             btnSave.Enabled = isEditing;
             btnAdd.Enabled = !isEditing;
             btnEdit.Enabled = !isEditing;
-            btnDelete.Enabled = !isEditing;
+            btnCancel.Enabled = !isEditing;
+        }
+
+        private void SetItemButtonsMode(bool isEditing)
+        {
+            cboMedicineBatch.Enabled = isEditing;
+            numQuantity.Enabled = isEditing;
+            numUnitCost.Enabled = isEditing;
+            btnAddItem.Enabled = isEditing;
+            btnRemoveItem.Enabled = isEditing;
         }
 
         private void ClearForm()
@@ -344,8 +586,16 @@ namespace IT59_Pharmacy.Views
             cboStatus.SelectedIndex = 0;
             _selectedReceiptNoteId = null;
             _selectedItemId = null;
-            dgvReceiptNoteItems.DataSource = null;
-            lblTotal.Text = "Tổng tiền: 0 ₫";
+            _tempItems.Clear();
+            RefreshItemsGrid();
+            ClearItemFields();
+        }
+
+        private void ClearItemFields()
+        {
+            cboMedicineBatch.SelectedIndex = -1;
+            numQuantity.Value = 1;
+            numUnitCost.Value = 0;
         }
 
         private string GenerateReceiptNoteNumber()
@@ -369,6 +619,18 @@ namespace IT59_Pharmacy.Views
                 case ReceiptNoteStatus.Cancelled: return "Đã hủy";
                 default: return "Không xác định";
             }
+        }
+
+        private class ReceiptNoteItemViewModel
+        {
+            public int Id { get; set; }
+            public int MedicineBatchId { get; set; }
+            public string MedicineName { get; set; }
+            public string BatchNumber { get; set; }
+            public DateTime ExpiryDate { get; set; }
+            public int Quantity { get; set; }
+            public decimal UnitCost { get; set; }
+            public string Manufacturer { get; set; }
         }
     }
 }

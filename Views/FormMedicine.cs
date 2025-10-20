@@ -18,6 +18,20 @@ namespace IT59_Pharmacy.Views
         public FormMedicine()
         {
             InitializeComponent();
+            
+            // Enable double buffering for both DataGridViews
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | 
+                System.Reflection.BindingFlags.Instance | 
+                System.Reflection.BindingFlags.NonPublic,
+                null, dgvMedicines, new object[] { true });
+            
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | 
+                System.Reflection.BindingFlags.Instance | 
+                System.Reflection.BindingFlags.NonPublic,
+                null, dgvBatches, new object[] { true });
+            
             var context = new AppDbContext();
             var currentUserService = new CurrentUserService();
             currentUserService.setCurrentUserId(1);
@@ -26,6 +40,10 @@ namespace IT59_Pharmacy.Views
 
         private void FormMedicine_Load(object sender, EventArgs e)
         {
+            // Optimize both DataGridViews
+            OptimizeDataGridView(dgvMedicines);
+            OptimizeDataGridView(dgvBatches);
+            
             LoadMedicines();
             LoadCategories();
             
@@ -40,10 +58,33 @@ namespace IT59_Pharmacy.Views
             SetFormMode(false);
         }
 
+        private void OptimizeDataGridView(DataGridView dgv)
+        {
+            // Suspend layout during configuration
+            dgv.SuspendLayout();
+            
+            // Performance optimizations
+            dgv.AutoGenerateColumns = true;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.ReadOnly = true;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            
+            // Resume layout
+            dgv.ResumeLayout();
+        }
+
         private void LoadMedicines()
         {
             try
             {
+                // Suspend layout to prevent flickering
+                dgvMedicines.SuspendLayout();
+                
                 var medicines = _unitOfWork.Medicines.GetAll();
                 
                 dgvMedicines.DataSource = medicines.Select(m => new
@@ -66,9 +107,13 @@ namespace IT59_Pharmacy.Views
                     
                 // Clear batches when medicines reload
                 dgvBatches.DataSource = null;
+                
+                // Resume layout
+                dgvMedicines.ResumeLayout();
             }
             catch (Exception ex)
             {
+                dgvMedicines.ResumeLayout();
                 MessageBox.Show($"Lỗi khi tải danh sách thuốc: {ex.Message}", "Lỗi", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -78,6 +123,9 @@ namespace IT59_Pharmacy.Views
         {
             try
             {
+                // Suspend layout to prevent flickering
+                dgvBatches.SuspendLayout();
+                
                 var batches = _unitOfWork.MedicineBatches.GetAll()
                     .Where(b => b.MedicineId == medicineId)
                     .OrderByDescending(b => b.CreatedDate)
@@ -100,9 +148,13 @@ namespace IT59_Pharmacy.Views
 
                 if (dgvBatches.Columns["Id"] != null)
                     dgvBatches.Columns["Id"].Visible = false;
+                    
+                // Resume layout
+                dgvBatches.ResumeLayout();
             }
             catch (Exception ex)
             {
+                dgvBatches.ResumeLayout();
                 MessageBox.Show($"Lỗi khi tải danh sách lô thuốc: {ex.Message}", "Lỗi", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

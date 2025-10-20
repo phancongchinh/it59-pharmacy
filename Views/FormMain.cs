@@ -6,12 +6,22 @@ namespace IT59_Pharmacy.Views
 {
     public partial class FormMain : Form
     {
+        private Form _currentChildForm;
+
         public FormMain()
         {
             // Cấu hình mặc định
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            this.Size = new Size(1920, 1080); // kích thước mặc định
+            this.Size = new Size(1920, 1080);
+            
+            // Enable double buffering for smooth rendering
+            this.DoubleBuffered = true;
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | 
+                         ControlStyles.AllPaintingInWmPaint | 
+                         ControlStyles.UserPaint, true);
+            this.UpdateStyles();
+            
             InitializeComponent();
         }
 
@@ -40,6 +50,11 @@ namespace IT59_Pharmacy.Views
             OpenChildForm(new FormReceiptNote());
         }
 
+        private void lblAppTitle_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void btnLogout_Click(object sender, EventArgs e)
         {
             // Handle logout logic
@@ -57,7 +72,18 @@ namespace IT59_Pharmacy.Views
 
         public void OpenChildForm(Form childForm)
         {
-            // Clear existing controls in the content panel
+            // Dispose previous form to free resources
+            if (_currentChildForm != null)
+            {
+                _currentChildForm.Close();
+                _currentChildForm.Dispose();
+                _currentChildForm = null;
+            }
+
+            // Suspend layout to prevent flickering
+            panelContent.SuspendLayout();
+            
+            // Clear existing controls
             panelContent.Controls.Clear();
 
             // Configure child form
@@ -65,11 +91,33 @@ namespace IT59_Pharmacy.Views
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
 
-            // Add a child form to the panel
+            // Enable double buffering for child form
+            typeof(Control).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | 
+                System.Reflection.BindingFlags.Instance | 
+                System.Reflection.BindingFlags.NonPublic,
+                null, childForm, new object[] { true });
+
+            // Add child form to panel
             panelContent.Controls.Add(childForm);
             panelContent.Tag = childForm;
+            _currentChildForm = childForm;
             childForm.BringToFront();
             childForm.Show();
+            
+            // Resume layout
+            panelContent.ResumeLayout(true);
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            
+            // Clean up resources
+            if (_currentChildForm != null)
+            {
+                _currentChildForm.Dispose();
+            }
         }
     }
 }

@@ -17,55 +17,104 @@ namespace IT59_Pharmacy.Views
         public FormUser()
         {
             InitializeComponent();
+            
+            // Enable double buffering for smooth scrolling
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | 
+                System.Reflection.BindingFlags.Instance | 
+                System.Reflection.BindingFlags.NonPublic,
+                null, dgvUsers, new object[] { true });
+            
             var context = new AppDbContext();
             var currentUserService = new CurrentUserService();
-            // Set a default user ID for audit fields (you can set this from login)
             currentUserService.setCurrentUserId(1);
             _unitOfWork = new UnitOfWork(context, currentUserService);
         }
 
         private void FormUser_Load(object sender, EventArgs e)
         {
-            LoadUserRoles();
+            // Optimize DataGridView
+            OptimizeDataGridView(dgvUsers);
+            
             LoadUsers();
+            LoadRoles();
             SetFormMode(false);
         }
 
-        private void LoadUserRoles()
+        private void OptimizeDataGridView(DataGridView dgv)
         {
-            cmbRole.DataSource = Enum.GetValues(typeof(UserRole));
+            // Suspend layout during configuration
+            dgv.SuspendLayout();
+            
+            // Performance optimizations
+            dgv.AutoGenerateColumns = true;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.ReadOnly = true;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            
+            // Resume layout
+            dgv.ResumeLayout();
         }
 
         private void LoadUsers()
         {
             try
             {
-                var users = _unitOfWork.Users.GetAll();
+                // Suspend layout to prevent flickering
+                dgvUsers.SuspendLayout();
                 
+                var users = _unitOfWork.Users.GetAll();
+
                 dgvUsers.DataSource = users.Select(u => new
                 {
                     u.Id,
                     TênĐăngNhập = u.Username,
                     HọTên = u.FullName,
-                    u.Email,
-                    ĐiệnThoại = u.PhoneNumber,
-                    VaiTrò = u.Role.ToString(),
+                    Email = u.Email,
+                    SốĐiệnThoại = u.PhoneNumber,
+                    VaiTrò = GetRoleText(u.Role),
                     TrangThái = u.IsActive ? "Hoạt động" : "Không hoạt động",
-                    NgàyTạo = u.CreatedDate.ToString("dd/MM/yyyy"),
-                    NgườiTạo = u.CreatedBy != null ? u.CreatedBy.Username : "",
-                    NgàyCậpNhật = u.UpdatedDate.HasValue ? u.UpdatedDate.Value.ToString("dd/MM/yyyy") : "",
-                    NgườiCậpNhật = u.UpdatedBy != null ? u.UpdatedBy.Username : ""
+                    NgàyTạo = u.CreatedDate.ToString("dd/MM/yyyy")
                 }).ToList();
 
-                // Hide the Id column
                 if (dgvUsers.Columns["Id"] != null)
                     dgvUsers.Columns["Id"].Visible = false;
+                
+                // Set column widths manually for better performance
+                if (dgvUsers.Columns["TênĐăngNhập"] != null)
+                    dgvUsers.Columns["TênĐăngNhập"].Width = 150;
+                if (dgvUsers.Columns["HọTên"] != null)
+                    dgvUsers.Columns["HọTên"].Width = 200;
+                if (dgvUsers.Columns["Email"] != null)
+                    dgvUsers.Columns["Email"].Width = 200;
+                if (dgvUsers.Columns["SốĐiệnThoại"] != null)
+                    dgvUsers.Columns["SốĐiệnThoại"].Width = 120;
+                if (dgvUsers.Columns["VaiTrò"] != null)
+                    dgvUsers.Columns["VaiTrò"].Width = 130;
+                if (dgvUsers.Columns["TrangThái"] != null)
+                    dgvUsers.Columns["TrangThái"].Width = 130;
+                if (dgvUsers.Columns["NgàyTạo"] != null)
+                    dgvUsers.Columns["NgàyTạo"].Width = 120;
+                    
+                // Resume layout
+                dgvUsers.ResumeLayout();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải danh sách người dùng: {ex.Message}", "Lỗi", 
+                dgvUsers.ResumeLayout();
+                MessageBox.Show($"Lỗi khi tải danh sách người dùng: {ex.Message}", "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void LoadRoles()
+        {
+            cmbRole.DataSource = Enum.GetValues(typeof(UserRole));
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -80,7 +129,7 @@ namespace IT59_Pharmacy.Views
         {
             if (_selectedUserId == null)
             {
-                MessageBox.Show("Vui lòng chọn người dùng để sửa!", "Thông báo", 
+                MessageBox.Show("Vui lòng chọn người dùng để sửa!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -246,6 +295,21 @@ namespace IT59_Pharmacy.Views
             cmbRole.SelectedIndex = 0;
             chkIsActive.Checked = true;
             _selectedUserId = null;
+        }
+
+        private string GetRoleText(UserRole role)
+        {
+            switch (role)
+            {
+                case UserRole.Administrator:
+                    return "Quản trị viên";
+                case UserRole.WarehouseManager:
+                    return "Quản lý kho";
+                case UserRole.Cashier:
+                    return "Thu ngân";
+                default:
+                    return role.ToString();
+            }
         }
     }
 }

@@ -6,14 +6,29 @@ namespace IT59_Pharmacy.Data {
 
         public AppDbContext() : base("name=AppDbContext") {
             // Enable automatic database creation if it doesn't exist
-            // Database.SetInitializer(new CreateDatabaseIfNotExists<AppDbContext>());
+            Database.SetInitializer(new CreateDatabaseIfNotExists<AppDbContext>());
             
-            Database.SetInitializer(new DropCreateDatabaseAlways<AppDbContext>());
+            // Use this only when you want to reset the database
+            // Database.SetInitializer(new DropCreateDatabaseAlways<AppDbContext>());
+            
+            // Disable lazy loading for better performance
+            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.ProxyCreationEnabled = false;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
+            // Medicines - MedicineCategory n-n relationship
+            modelBuilder.Entity<Medicine>()
+                .HasMany(m => m.Categories)
+                .WithMany(c => c.Medicines)
+                .Map(mc => {
+                    mc.ToTable("MedicineMedicineCategories");
+                    mc.MapLeftKey("MedicineId");
+                    mc.MapRightKey("MedicineCategoryId");
+                });
+            
             // Configure self-referencing relationships for User
             modelBuilder.Entity<User>()
                 .HasOptional(u => u.CreatedBy)
