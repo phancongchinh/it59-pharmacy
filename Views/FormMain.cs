@@ -44,6 +44,11 @@ namespace IT59_Pharmacy.Views
         {
             OpenChildForm(new FormMedicine());
         }
+        
+        private void btnMedicineBatches_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormMedicineBatch());
+        }
 
         private void btnReceiptNotes_Click(object sender, EventArgs e)
         {

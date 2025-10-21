@@ -1,4 +1,6 @@
-﻿namespace IT59_Pharmacy.Views
+﻿using System.Windows.Forms;
+
+namespace IT59_Pharmacy.Views
 {
     partial class FormMain
     {
@@ -76,7 +78,7 @@
             this.btnReports.Margin = new System.Windows.Forms.Padding(4);
             this.btnReports.Name = "btnReports";
             this.btnReports.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
-            this.btnReports.Size = new System.Drawing.Size(250, 52);
+            this.btnReports.Size = new System.Drawing.Size(250, 50);
             this.btnReports.TabIndex = 12;
             this.btnReports.Text = "Báo cáo";
             this.btnReports.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -94,7 +96,7 @@
             this.btnLogout.Margin = new System.Windows.Forms.Padding(4);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
-            this.btnLogout.Size = new System.Drawing.Size(250, 52);
+            this.btnLogout.Size = new System.Drawing.Size(250, 50);
             this.btnLogout.TabIndex = 11;
             this.btnLogout.Text = "Đăng xuất";
             this.btnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -110,11 +112,11 @@
             this.btnInvoices.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInvoices.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnInvoices.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnInvoices.Location = new System.Drawing.Point(0, 372);
+            this.btnInvoices.Location = new System.Drawing.Point(0, 410);
             this.btnInvoices.Margin = new System.Windows.Forms.Padding(4);
             this.btnInvoices.Name = "btnInvoices";
             this.btnInvoices.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
-            this.btnInvoices.Size = new System.Drawing.Size(250, 52);
+            this.btnInvoices.Size = new System.Drawing.Size(250, 50);
             this.btnInvoices.TabIndex = 9;
             this.btnInvoices.Text = "Hóa đơn";
             this.btnInvoices.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -129,11 +131,11 @@
             this.btnDeliveryNotes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeliveryNotes.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeliveryNotes.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnDeliveryNotes.Location = new System.Drawing.Point(0, 320);
+            this.btnDeliveryNotes.Location = new System.Drawing.Point(0, 360);
             this.btnDeliveryNotes.Margin = new System.Windows.Forms.Padding(4);
             this.btnDeliveryNotes.Name = "btnDeliveryNotes";
             this.btnDeliveryNotes.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
-            this.btnDeliveryNotes.Size = new System.Drawing.Size(250, 52);
+            this.btnDeliveryNotes.Size = new System.Drawing.Size(250, 50);
             this.btnDeliveryNotes.TabIndex = 8;
             this.btnDeliveryNotes.Text = "Phiếu xuất";
             this.btnDeliveryNotes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -148,11 +150,11 @@
             this.btnReceiptNotes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReceiptNotes.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReceiptNotes.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnReceiptNotes.Location = new System.Drawing.Point(0, 268);
+            this.btnReceiptNotes.Location = new System.Drawing.Point(0, 310);
             this.btnReceiptNotes.Margin = new System.Windows.Forms.Padding(4);
             this.btnReceiptNotes.Name = "btnReceiptNotes";
             this.btnReceiptNotes.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
-            this.btnReceiptNotes.Size = new System.Drawing.Size(250, 52);
+            this.btnReceiptNotes.Size = new System.Drawing.Size(250, 50);
             this.btnReceiptNotes.TabIndex = 7;
             this.btnReceiptNotes.Text = "Phiếu nhập";
             this.btnReceiptNotes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -168,16 +170,36 @@
             this.btnMedicines.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMedicines.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMedicines.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnMedicines.Location = new System.Drawing.Point(0, 216);
+            this.btnMedicines.Location = new System.Drawing.Point(0, 260);
             this.btnMedicines.Margin = new System.Windows.Forms.Padding(4);
             this.btnMedicines.Name = "btnMedicines";
             this.btnMedicines.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
-            this.btnMedicines.Size = new System.Drawing.Size(250, 52);
+            this.btnMedicines.Size = new System.Drawing.Size(250, 50);
             this.btnMedicines.TabIndex = 6;
             this.btnMedicines.Text = "Thuốc";
             this.btnMedicines.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnMedicines.UseVisualStyleBackColor = false;
             this.btnMedicines.Click += new System.EventHandler(this.btnMedicines_Click);
+            // 
+            // btnMedicines batchs
+            // 
+            this.btnMedicines.BackColor = System.Drawing.Color.FromArgb(51,51,76);
+            this.btnMedicines.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMedicines.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnMedicines.FlatAppearance.BorderSize = 0;
+            this.btnMedicines.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMedicines.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMedicines.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnMedicines.Location = new System.Drawing.Point(0, 210);
+            this.btnMedicines.Margin = new System.Windows.Forms.Padding(4);
+            this.btnMedicines.Name = "btnMedicines";
+            this.btnMedicines.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
+            this.btnMedicines.Size = new System.Drawing.Size(250, 50);
+            this.btnMedicines.TabIndex = 6;
+            this.btnMedicines.Text = "Lô thuốc";
+            this.btnMedicines.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnMedicines.UseVisualStyleBackColor = false;
+            this.btnMedicines.Click += new System.EventHandler(this.btnMedicineBatches_Click);
             // 
             // btnMedicineCategories
             // 
@@ -188,11 +210,11 @@
             this.btnMedicineCategories.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMedicineCategories.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMedicineCategories.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnMedicineCategories.Location = new System.Drawing.Point(0, 164);
+            this.btnMedicineCategories.Location = new System.Drawing.Point(0, 160);
             this.btnMedicineCategories.Margin = new System.Windows.Forms.Padding(4);
             this.btnMedicineCategories.Name = "btnMedicineCategories";
             this.btnMedicineCategories.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
-            this.btnMedicineCategories.Size = new System.Drawing.Size(250, 52);
+            this.btnMedicineCategories.Size = new System.Drawing.Size(250, 50);
             this.btnMedicineCategories.TabIndex = 5;
             this.btnMedicineCategories.Text = "Danh mục thuốc";
             this.btnMedicineCategories.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -208,11 +230,11 @@
             this.btnSuppliers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSuppliers.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSuppliers.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSuppliers.Location = new System.Drawing.Point(0, 112);
+            this.btnSuppliers.Location = new System.Drawing.Point(0, 110);
             this.btnSuppliers.Margin = new System.Windows.Forms.Padding(4);
             this.btnSuppliers.Name = "btnSuppliers";
             this.btnSuppliers.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
-            this.btnSuppliers.Size = new System.Drawing.Size(250, 52);
+            this.btnSuppliers.Size = new System.Drawing.Size(250, 50);
             this.btnSuppliers.TabIndex = 4;
             this.btnSuppliers.Text = "Nhà cung cấp";
             this.btnSuppliers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -232,7 +254,7 @@
             this.btnUsers.Margin = new System.Windows.Forms.Padding(4);
             this.btnUsers.Name = "btnUsers";
             this.btnUsers.Padding = new System.Windows.Forms.Padding(23, 0, 0, 0);
-            this.btnUsers.Size = new System.Drawing.Size(250, 52);
+            this.btnUsers.Size = new System.Drawing.Size(250, 50);
             this.btnUsers.TabIndex = 3;
             this.btnUsers.Text = "Người dùng";
             this.btnUsers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -282,7 +304,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel panelContent;
         private System.Windows.Forms.Button btnUsers;
         private System.Windows.Forms.Label lblAppTitle;
@@ -292,6 +313,7 @@
         private System.Windows.Forms.Button btnReceiptNotes;
         private System.Windows.Forms.Button btnMedicines;
         private System.Windows.Forms.Button btnMedicineCategories;
+        private Button btnMedicineBatchs;
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Button btnReports;
     }
