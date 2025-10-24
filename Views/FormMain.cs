@@ -55,6 +55,21 @@ namespace IT59_Pharmacy.Views
             OpenChildForm(new FormReceiptNote());
         }
 
+        private void btnDeliveryNotes_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormDeliveryNote());
+        }
+
+        private void btnInvoices_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormInvoice());
+        }
+
+        private void btnReports_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormReport());
+        }
+
         private void lblAppTitle_Click(object sender, EventArgs e)
         {
 

@@ -83,6 +83,7 @@ namespace IT59_Pharmacy.Views
             this.btnReports.Text = "Báo cáo";
             this.btnReports.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnReports.UseVisualStyleBackColor = false;
+            this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 
             // btnLogout
             // 
@@ -121,6 +122,7 @@ namespace IT59_Pharmacy.Views
             this.btnInvoices.Text = "Hóa đơn";
             this.btnInvoices.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnInvoices.UseVisualStyleBackColor = false;
+            this.btnInvoices.Click += new System.EventHandler(this.btnInvoices_Click);
             // 
             // btnDeliveryNotes
             // 
@@ -140,6 +142,7 @@ namespace IT59_Pharmacy.Views
             this.btnDeliveryNotes.Text = "Phiếu xuất";
             this.btnDeliveryNotes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDeliveryNotes.UseVisualStyleBackColor = false;
+            this.btnDeliveryNotes.Click += new System.EventHandler(this.btnDeliveryNotes_Click);
             // 
             // btnReceiptNotes
             // 
